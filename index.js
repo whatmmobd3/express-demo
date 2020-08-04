@@ -1,10 +1,31 @@
 const express = require("express");
+const joi = require("joi");
+const logger = require("./logger");
 const app = express();
 const PORT = process.env.PORT || 5000;
 
 app.use(express.json());
+
+app.use(logger);
+
+app.use((req, res, next) => {
+  console.log("Authentication ...");
+  next();
+});
+
 const courses = [
-  { id: 1, name: "Node js", id: 2, name: "Angular", id: 3, name: "Swift" },
+  {
+    id: 1,
+    name: "Node js",
+  },
+  {
+    id: 2,
+    name: "Angular",
+  },
+  {
+    id: 3,
+    name: "Swift",
+  },
 ];
 
 app.get("/", (req, res) => {
