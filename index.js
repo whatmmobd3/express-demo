@@ -4,14 +4,17 @@ const logger = require("./logger");
 const app = express();
 const PORT = process.env.PORT || 5000;
 
+const helmet = require("helmet");
+const morgan = require("morgan");
+
 app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+app.use(express.static("public"));
 
 app.use(logger);
 
-app.use((req, res, next) => {
-  console.log("Authentication ...");
-  next();
-});
+app.use(helmet());
+app.use(morgan('tiny'));
 
 const courses = [
   {
@@ -32,7 +35,7 @@ app.get("/", (req, res) => {
   res.send("Hello World");
 });
 
-app.get("/api/courses", (req, res) => {
+app.post("/api/courses", (req, res) => {
   res.send(courses);
 });
 
